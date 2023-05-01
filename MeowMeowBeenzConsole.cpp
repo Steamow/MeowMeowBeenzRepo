@@ -18,7 +18,9 @@ float landonValue;
 float nate3Print;
 float jordanPrint;
 float landonPrint;
-float accountWeight = 0;
+float nate3Weight;
+float jordanWeight;
+float landonWeight;
 string userName;
 string password;
 string name;
@@ -69,12 +71,18 @@ int main()
     cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following people on how you feel about them!\nNate 3 | " << nate3Print << "\nJordan | " << jordanPrint << "\nLandon | " << landonPrint << endl;
     while (on)
     {
-        if (accountWeight == 0) {
-
+        if (userName == "Nate") {
+            nate3Weight = nate3Print;
         }
-        cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? ";
+        else if (userName == "Jordan") {
+            jordanWeight = jordanPrint;
+        }
+        else if (userName == "Landon") {
+            landonWeight = landonPrint;
+        }
+        cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? or you can (Sign-Out or Quit). ";
         cin >> name;
-        if (name == "Nate3") {
+        if (name == "Nate3" && userName != "Nate") {
             // Update Nate3's rating
             cout << "What is your rating (out of 5) for Nate3? ";
             while (!(cin >> nate3Rating) || nate3Rating < 1 || nate3Rating > 5) { // check if input is a number between 1 and 5
@@ -87,7 +95,7 @@ int main()
             nate3Print = roundf(nate3Value * 2) / 2;
             cout << "Nate 3's rating is now | " << nate3Print << "\n";
         }
-        else if (name == "Jordan") {
+        else if (name == "Jordan" && userName != "Jordan") {
             // Update Jordan's rating
             cout << "What is your rating (out of 5) for Jordan? ";
             while (!(cin >> jordanRating) || jordanRating < 1 || jordanRating > 5) { // check if input is a number between 1 and 5
@@ -100,7 +108,7 @@ int main()
             jordanPrint = roundf(jordanValue * 2) / 2;
             cout << "Jordan's rating is now | " << jordanPrint << "\n";
         }
-        else if (name == "Landon") {
+        else if (name == "Landon" && userName != "Landon") {
             // Update Landon's rating
             cout << "What is your rating (out of 5) for Landon? ";
             while (!(cin >> landonRating) || landonRating < 1 || landonRating > 5) { // check if input is a number between 1 and 5
@@ -113,7 +121,7 @@ int main()
             landonPrint = roundf(landonValue * 2) / 2;
             cout << "landon's rating is now | " << landonPrint << "\n";
         }
-        else if (name == "quit") {
+        else if (name == "Quit") {
             // Exit the program if the user types "quit"
             cout << "Exiting MeowMeowBeenz!" << endl;
             on = false;
@@ -142,10 +150,18 @@ int main()
             landonPrint = roundf(landonValue * 2) / 2;
             cout << "landon's rating is now | " << landonPrint << "\n";
         }
+        else if (name == "Sign-Out") {
+            cout << "loging out \n";
+            userName = "";
+            password = "";
+            on = false;
+            signedIn = false;
+
+        }
         
         else {
             // Invalid input
-            cout << "Invalid input. Please enter Nate3, Jordan, Landon, or quit." << endl;
+            cout << "Invalid input, you cannot vote for yourself, or if you made a type please refer you your possible options: \n Nate3, Jordan, Landon, Sign-Out or Quit." << endl;
         }
 
         ofstream outFile("documents/.values.txt");
@@ -154,6 +170,11 @@ int main()
             outFile.close();
         }
     }
-
-    return 0;
+    
+    if (signedIn == true && on == false) {
+        return 0;
+    }
+    else {
+        main();
+    }
 }
