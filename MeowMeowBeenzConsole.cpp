@@ -21,10 +21,83 @@ float landonPrint;
 float nate3Weight;
 float jordanWeight;
 float landonWeight;
+int voteInt;
 string userName;
 string password;
 string name;
 
+void vote() {
+    ifstream inFileNatesRatings("documents/nateVotes");
+    float jordanFromNate{}, landonFromNate{};
+    if (inFileNatesRatings) {
+        inFileNatesRatings >> jordanFromNate >> landonFromNate;
+        inFileNatesRatings.close();
+    }
+    ifstream inFilejordansRatings("documents/jordanVotes");
+    float nateFromJordan, landonFromJordan{};
+    if (inFilejordansRatings) {
+        inFilejordansRatings >> nateFromJordan >> landonFromJordan;
+        inFilejordansRatings.close();
+    }
+    ifstream inFilelandonsRatings("documents/landonVotes");
+    float nateFromLandon, jordanFromLandon{};
+    if (inFilelandonsRatings) {
+        inFilelandonsRatings >> nateFromLandon >> jordanFromLandon;
+        inFilelandonsRatings.close();
+    }
+    if (userName == "Nate") {
+
+        if (voteInt == 2) {
+            if (jordanRating != 0) {
+                jordanFromNate = jordanRating;
+            }
+            else
+            {
+                jordanFromNate = jordanFromNate;
+            }
+            if (landonRating != 0) {
+                landonFromNate = landonRating;
+            }
+            else
+            {
+                landonFromNate = landonFromNate;
+            }
+
+            ofstream outFileNatesRating("documents/nateVotes");
+
+            if (outFileNatesRating) {
+                outFileNatesRating << jordanFromNate << " " << landonFromNate << endl;
+                outFileNatesRating.close();
+            }
+            jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / nate3Weight + landonWeight;
+        }
+        else if (voteInt == 3) {
+            if (jordanRating != 0) {
+                jordanFromNate = jordanRating;
+            }
+            else
+            {
+                jordanFromNate = jordanFromNate;
+            }
+            if (landonRating != 0) {
+                landonFromNate = landonRating;
+            }
+            else
+            {
+                landonFromNate = landonFromNate;
+            }
+            
+            landonFromNate = landonRating;
+            ofstream outFileNatesRating("documents/nateVotes");
+
+            if (outFileNatesRating) {
+                outFileNatesRating << jordanFromNate << " " << landonFromNate << endl;
+                outFileNatesRating.close();
+            }
+            landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / nate3Weight + jordanWeight;
+        }
+    }
+}
 
 int main()
 {
@@ -72,13 +145,14 @@ int main()
     while (on)
     {
         if (userName == "Nate") {
-            nate3Weight = nate3Print;
+            nate3Weight = roundf(nate3Print - .49);
+
         }
         else if (userName == "Jordan") {
-            jordanWeight = jordanPrint;
+            jordanWeight = roundf(jordanPrint - .49);
         }
         else if (userName == "Landon") {
-            landonWeight = landonPrint;
+            landonWeight = roundf(landonPrint - .49);
         }
         cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? or you can (Sign-Out or Quit). ";
         cin >> name;
@@ -90,10 +164,15 @@ int main()
                 cin.clear(); // clear error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
             }
+            /*
             nate3Value = (nate3Value * 4 + nate3Rating) / 5;
             nate3Value = roundf(nate3Value * 100) / 100;
             nate3Print = roundf(nate3Value * 2) / 2;
             cout << "Nate 3's rating is now | " << nate3Print << "\n";
+            */
+            voteInt = 1;
+            vote();
+
         }
         else if (name == "Jordan" && userName != "Jordan") {
             // Update Jordan's rating
@@ -156,6 +235,9 @@ int main()
             password = "";
             on = false;
             signedIn = false;
+            nate3Rating = 0;
+            landonRating = 0;
+            jordanRating = 0;
 
         }
         
@@ -178,3 +260,5 @@ int main()
         main();
     }
 }
+
+
