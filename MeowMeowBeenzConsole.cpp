@@ -9,6 +9,7 @@ using namespace std;
 
 bool signedIn = false;
 bool on = false;
+bool first = true;
 float nate3Rating;
 float jordanRating;
 float landonRating;
@@ -21,26 +22,26 @@ float landonPrint;
 float nate3Weight;
 float jordanWeight;
 float landonWeight;
-int voteInt;
+int voteInt = 0;
 string userName;
 string password;
 string name;
 
 void vote() {
-    ifstream inFileNatesRatings("documents/nateVotes");
-    float jordanFromNate{}, landonFromNate{};
+    float jordanFromNate, landonFromNate;
+    ifstream inFileNatesRatings("documents/nateVotes.txt");
     if (inFileNatesRatings) {
         inFileNatesRatings >> jordanFromNate >> landonFromNate;
         inFileNatesRatings.close();
     }
-    ifstream inFilejordansRatings("documents/jordanVotes");
-    float nateFromJordan, landonFromJordan{};
-    if (inFilejordansRatings) {
-        inFilejordansRatings >> nateFromJordan >> landonFromJordan;
-        inFilejordansRatings.close();
+    float nateFromJordan, landonFromJordan;
+    ifstream inFileJordansRatings("documents/jordanVotes.txt");
+    if (inFileJordansRatings) {
+        inFileJordansRatings >> nateFromJordan >> landonFromJordan;
+        inFileJordansRatings.close();
     }
-    ifstream inFilelandonsRatings("documents/landonVotes");
-    float nateFromLandon, jordanFromLandon{};
+    float nateFromLandon, jordanFromLandon;
+    ifstream inFilelandonsRatings("documents/landonVotes.txt");
     if (inFilelandonsRatings) {
         inFilelandonsRatings >> nateFromLandon >> jordanFromLandon;
         inFilelandonsRatings.close();
@@ -51,56 +52,168 @@ void vote() {
             if (jordanRating != 0) {
                 jordanFromNate = jordanRating;
             }
-            else
-            {
+            else{
                 jordanFromNate = jordanFromNate;
             }
             if (landonRating != 0) {
                 landonFromNate = landonRating;
             }
-            else
-            {
+            else{
                 landonFromNate = landonFromNate;
             }
 
-            ofstream outFileNatesRating("documents/nateVotes");
-
-            if (outFileNatesRating) {
-                outFileNatesRating << jordanFromNate << " " << landonFromNate << endl;
-                outFileNatesRating.close();
-            }
-            jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / nate3Weight + landonWeight;
+            jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / (nate3Weight + landonWeight);
+            jordanValue = roundf(jordanValue * 100) / 100;
+            jordanPrint = roundf(jordanValue * 2) / 2;
+            cout << "Jordan's rating is now | " << jordanPrint << "\n";
         }
         else if (voteInt == 3) {
             if (jordanRating != 0) {
                 jordanFromNate = jordanRating;
             }
-            else
-            {
+            else{
                 jordanFromNate = jordanFromNate;
             }
             if (landonRating != 0) {
                 landonFromNate = landonRating;
             }
-            else
-            {
+            else{
                 landonFromNate = landonFromNate;
             }
-            
-            landonFromNate = landonRating;
-            ofstream outFileNatesRating("documents/nateVotes");
 
-            if (outFileNatesRating) {
-                outFileNatesRating << jordanFromNate << " " << landonFromNate << endl;
-                outFileNatesRating.close();
-            }
-            landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / nate3Weight + jordanWeight;
+            landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / (nate3Weight + jordanWeight);
+            landonValue = roundf(landonValue * 100) / 100;
+            landonPrint = roundf(landonValue * 2) / 2;
+            cout << "landon's rating is now | " << landonPrint << "\n";
         }
+
+        ofstream outFileNatesRating("documents/nateVotes.txt");
+
+        if (outFileNatesRating) {
+            outFileNatesRating << jordanFromNate << " " << landonFromNate << endl;
+            outFileNatesRating.close();
+        }      
+    }
+    else if (userName == "Jordan") {
+
+        if (voteInt == 1) {
+            if (jordanRating != 0) {
+                nateFromJordan = nate3Rating;
+            }
+            else {
+                nateFromJordan = nateFromJordan;
+            }
+            if (landonRating != 0) {
+                landonFromJordan = landonRating;
+            }
+            else {
+                landonFromJordan = landonFromJordan;
+            }
+
+            nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
+            nate3Value = roundf(nate3Value * 100) / 100;
+            nate3Print = roundf(nate3Value * 2) / 2;
+            cout << "Nate 3's rating is now | " << nate3Print << "\n";
+        }
+        else if (voteInt == 3) {
+            if (jordanRating != 0) {
+                nateFromJordan = nate3Rating;
+            }
+            else {
+                nateFromJordan = nateFromJordan;
+            }
+            if (landonRating != 0) {
+                landonFromJordan = landonRating;
+            }
+            else {
+                landonFromJordan = landonFromJordan;
+            }
+
+            landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / (nate3Weight + jordanWeight);
+            landonValue = roundf(landonValue * 100) / 100;
+            landonPrint = roundf(landonValue * 2) / 2;
+            cout << "landon's rating is now | " << landonPrint << "\n";
+        }
+
+        ofstream outFileJordanRating("documents/jordanVotes.txt");
+
+        if (outFileJordanRating) {
+            outFileJordanRating << nateFromJordan << " " << landonFromJordan << endl;
+            outFileJordanRating.close();
+        }
+    }
+    else if (userName == "Landon") {
+
+        if (voteInt == 1) {
+            if (jordanRating != 0) {
+                nateFromLandon = nate3Rating;
+            }
+            else {
+                nateFromLandon = nateFromLandon;
+            }
+            if (landonRating != 0) {
+                jordanFromLandon = jordanRating;
+            }
+            else {
+                jordanFromLandon = jordanFromLandon;
+            }
+
+            nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
+            nate3Value = roundf(nate3Value * 100) / 100;
+            nate3Print = roundf(nate3Value * 2) / 2;
+            cout << "Nate 3's rating is now | " << nate3Print << "\n";
+        }
+        else if (voteInt == 2) {
+            if (jordanRating != 0) {
+                nateFromLandon = nate3Rating;
+            }
+            else {
+                nateFromLandon = nateFromLandon;
+            }
+            if (landonRating != 0) {
+                jordanFromLandon = jordanRating;
+            }
+            else {
+                jordanFromLandon = jordanFromLandon;
+            }
+
+            jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / (nate3Weight + landonWeight);
+            jordanValue = roundf(jordanValue * 100) / 100;
+            jordanPrint = roundf(jordanValue * 2) / 2;
+            cout << "Jordan's rating is now | " << jordanPrint << "\n";
+        }
+
+        ofstream outFileLandonRating("documents/landonVotes.txt");
+
+        if (outFileLandonRating) {
+            outFileLandonRating << nateFromLandon << " " << jordanFromLandon << endl;
+            outFileLandonRating.close();
+        }
+    }
+    else{
+        nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
+        nate3Value = roundf(nate3Value * 100) / 100;
+        nate3Print = roundf(nate3Value * 2) / 2;
+
+        jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / (nate3Weight + landonWeight);
+        jordanValue = roundf(jordanValue * 100) / 100;
+        jordanPrint = roundf(jordanValue * 2) / 2;
+
+        landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / (nate3Weight + jordanWeight);
+        landonValue = roundf(landonValue * 100) / 100;
+        landonPrint = roundf(landonValue * 2) / 2;
     }
 }
 
 int main()
 {
+    if (first) {
+        vote();
+        first = false;
+    }
+    nate3Rating = 0;
+    jordanRating = 0;
+    landonRating = 0;
     ifstream inFile("documents/.values.txt");
     if (inFile) {
         inFile >> nate3Value >> jordanValue >> landonValue;
@@ -144,16 +257,11 @@ int main()
     cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following people on how you feel about them!\nNate 3 | " << nate3Print << "\nJordan | " << jordanPrint << "\nLandon | " << landonPrint << endl;
     while (on)
     {
-        if (userName == "Nate") {
-            nate3Weight = roundf(nate3Print - .49);
 
-        }
-        else if (userName == "Jordan") {
-            jordanWeight = roundf(jordanPrint - .49);
-        }
-        else if (userName == "Landon") {
-            landonWeight = roundf(landonPrint - .49);
-        }
+        nate3Weight = roundf(nate3Print - .49);
+        jordanWeight = roundf(jordanPrint - .49);
+        landonWeight = roundf(landonPrint - .49);
+
         cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? or you can (Sign-Out or Quit). ";
         cin >> name;
         if (name == "Nate3" && userName != "Nate") {
@@ -164,12 +272,7 @@ int main()
                 cin.clear(); // clear error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
             }
-            /*
-            nate3Value = (nate3Value * 4 + nate3Rating) / 5;
-            nate3Value = roundf(nate3Value * 100) / 100;
-            nate3Print = roundf(nate3Value * 2) / 2;
-            cout << "Nate 3's rating is now | " << nate3Print << "\n";
-            */
+
             voteInt = 1;
             vote();
 
@@ -182,10 +285,9 @@ int main()
                 cin.clear(); // clear error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
             }
-            jordanValue = (jordanValue * 4 + jordanRating) / 5;
-            jordanValue = roundf(jordanValue * 100) / 100;
-            jordanPrint = roundf(jordanValue * 2) / 2;
-            cout << "Jordan's rating is now | " << jordanPrint << "\n";
+
+            voteInt = 2;
+            vote();
         }
         else if (name == "Landon" && userName != "Landon") {
             // Update Landon's rating
@@ -195,10 +297,9 @@ int main()
                 cin.clear(); // clear error flag
                 cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
             }
-            landonValue = (landonValue * 4 + landonRating) / 5;
-            landonValue = roundf(landonValue * 100) / 100;
-            landonPrint = roundf(landonValue * 2) / 2;
-            cout << "landon's rating is now | " << landonPrint << "\n";
+
+            voteInt = 3;
+            vote();
         }
         else if (name == "Quit") {
             // Exit the program if the user types "quit"
@@ -260,5 +361,3 @@ int main()
         main();
     }
 }
-
-
