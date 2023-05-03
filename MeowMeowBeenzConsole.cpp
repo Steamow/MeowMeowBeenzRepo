@@ -1,10 +1,8 @@
-// MeowMeowBeenzConsole.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <cctype>
 using namespace std;
 
 bool signedIn = false;
@@ -86,6 +84,7 @@ void vote() {
             landonPrint = roundf(landonValue * 2) / 2;
             cout << "landon's rating is now | " << landonPrint << "\n";
         }
+        voteInt = 0;
 
         ofstream outFileNatesRating("documents/nateVotes.txt");
 
@@ -97,7 +96,7 @@ void vote() {
     else if (userName == "Jordan") {
 
         if (voteInt == 1) {
-            if (jordanRating != 0) {
+            if (nate3Rating != 0) {
                 nateFromJordan = nate3Rating;
             }
             else {
@@ -116,7 +115,7 @@ void vote() {
             cout << "Nate 3's rating is now | " << nate3Print << "\n";
         }
         else if (voteInt == 3) {
-            if (jordanRating != 0) {
+            if (nate3Rating != 0) {
                 nateFromJordan = nate3Rating;
             }
             else {
@@ -134,6 +133,7 @@ void vote() {
             landonPrint = roundf(landonValue * 2) / 2;
             cout << "landon's rating is now | " << landonPrint << "\n";
         }
+        voteInt = 0;
 
         ofstream outFileJordanRating("documents/jordanVotes.txt");
 
@@ -145,13 +145,13 @@ void vote() {
     else if (userName == "Landon") {
 
         if (voteInt == 1) {
-            if (jordanRating != 0) {
+            if (nate3Rating != 0) {
                 nateFromLandon = nate3Rating;
             }
             else {
                 nateFromLandon = nateFromLandon;
             }
-            if (landonRating != 0) {
+            if (jordanRating != 0) {
                 jordanFromLandon = jordanRating;
             }
             else {
@@ -164,13 +164,13 @@ void vote() {
             cout << "Nate 3's rating is now | " << nate3Print << "\n";
         }
         else if (voteInt == 2) {
-            if (jordanRating != 0) {
+            if (nate3Rating != 0) {
                 nateFromLandon = nate3Rating;
             }
             else {
                 nateFromLandon = nateFromLandon;
             }
-            if (landonRating != 0) {
+            if (jordanRating != 0) {
                 jordanFromLandon = jordanRating;
             }
             else {
@@ -182,6 +182,7 @@ void vote() {
             jordanPrint = roundf(jordanValue * 2) / 2;
             cout << "Jordan's rating is now | " << jordanPrint << "\n";
         }
+        voteInt = 0;
 
         ofstream outFileLandonRating("documents/landonVotes.txt");
 
@@ -190,7 +191,7 @@ void vote() {
             outFileLandonRating.close();
         }
     }
-    else{
+    if (voteInt == 0){
         nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
         nate3Value = roundf(nate3Value * 100) / 100;
         nate3Print = roundf(nate3Value * 2) / 2;
@@ -238,7 +239,7 @@ int main()
                     signedIn = true;
                     on = true;
                     cout << "Login successful." << endl;
-                    break; // exit the loop as soon as a matching user is found
+                    break;
                 }
                 else {
                     cout << "Incorrect password. Please try again." << endl;
@@ -247,7 +248,7 @@ int main()
         }
         if (!userFound) {
             cout << "User not found. Please sign up." << endl;
-            // Add code to create a new user account if desired
+            // Add code to create a new user account
         }
     }
     
@@ -265,12 +266,11 @@ int main()
         cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? or you can (Sign-Out or Quit). ";
         cin >> name;
         if (name == "Nate3" && userName != "Nate") {
-            // Update Nate3's rating
             cout << "What is your rating (out of 5) for Nate3? ";
-            while (!(cin >> nate3Rating) || nate3Rating < 1 || nate3Rating > 5) { // check if input is a number between 1 and 5
+            while (!(cin >> nate3Rating) || nate3Rating < 1 || nate3Rating > 5) { 
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
-                cin.clear(); // clear error flag
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
             }
 
             voteInt = 1;
@@ -278,60 +278,37 @@ int main()
 
         }
         else if (name == "Jordan" && userName != "Jordan") {
-            // Update Jordan's rating
             cout << "What is your rating (out of 5) for Jordan? ";
-            while (!(cin >> jordanRating) || jordanRating < 1 || jordanRating > 5) { // check if input is a number between 1 and 5
+            while (!(cin >> jordanRating) || jordanRating < 1 || jordanRating > 5) {
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
-                cin.clear(); // clear error flag
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
             }
 
             voteInt = 2;
             vote();
         }
         else if (name == "Landon" && userName != "Landon") {
-            // Update Landon's rating
             cout << "What is your rating (out of 5) for Landon? ";
-            while (!(cin >> landonRating) || landonRating < 1 || landonRating > 5) { // check if input is a number between 1 and 5
+            while (!(cin >> landonRating) || landonRating < 1 || landonRating > 5) {
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
-                cin.clear(); // clear error flag
-                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard input buffer
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
             }
 
             voteInt = 3;
             vote();
         }
         else if (name == "Quit") {
-            // Exit the program if the user types "quit"
             cout << "Exiting MeowMeowBeenz!" << endl;
+            voteInt = 0;
+            vote();
             on = false;
-        }
-        else if (name == "Sate3") {
-            // Update Nate3's rating
-            cout << "What is your rating (out of 5) for Nate3? ";
-            cin >> nate3Value;
-            nate3Value = roundf(nate3Value * 100) / 100;
-            nate3Print = roundf(nate3Value * 2) / 2;
-            cout << "Nate 3's rating is now | " << nate3Print << "\n";
-        }
-        else if (name == "Sordan") {
-            // Update Jordan's rating
-            cout << "What is your rating (out of 5) for Jordan? ";
-            cin >> jordanValue;
-            jordanValue = roundf(jordanValue * 100) / 100;
-            jordanPrint = roundf(jordanValue * 2) / 2;
-            cout << "Jordan's rating is now | " << jordanPrint << "\n";
-        }
-        else if (name == "Sandon") {
-            // Update Landon's rating
-            cout << "What is your rating (out of 5) for Landon? ";
-            cin >> landonValue;
-            landonValue = roundf(landonValue * 100) / 100;
-            landonPrint = roundf(landonValue * 2) / 2;
-            cout << "landon's rating is now | " << landonPrint << "\n";
         }
         else if (name == "Sign-Out") {
             cout << "loging out \n";
+            voteInt = 0;
+            vote();
             userName = "";
             password = "";
             on = false;
@@ -343,8 +320,7 @@ int main()
         }
         
         else {
-            // Invalid input
-            cout << "Invalid input, you cannot vote for yourself, or if you made a type please refer you your possible options: \n Nate3, Jordan, Landon, Sign-Out or Quit." << endl;
+            cout << "Invalid input, you cannot vote for yourself, or if you made a typo please refer you your possible options: \n Nate3, Jordan, Landon, Sign-Out or Quit." << endl;
         }
 
         ofstream outFile("documents/.values.txt");
