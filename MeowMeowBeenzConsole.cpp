@@ -258,6 +258,9 @@ int main()
     cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following people on how you feel about them!\nNate 3 | " << nate3Print << "\nJordan | " << jordanPrint << "\nLandon | " << landonPrint << endl;
     while (on)
     {
+        ifstream inFileLogin("documents/.login.txt");
+        string usernameFromFile, passwordFromFile;
+
 
         nate3Weight = roundf(nate3Print - .49);
         jordanWeight = roundf(jordanPrint - .49);
@@ -298,6 +301,9 @@ int main()
 
             voteInt = 3;
             vote();
+        }
+        else if (name == usernameFromFile && name != userName) {
+            cout << "you found me!" << endl;
         }
         else if (name == "Quit") {
             cout << "Exiting MeowMeowBeenz!" << endl;
