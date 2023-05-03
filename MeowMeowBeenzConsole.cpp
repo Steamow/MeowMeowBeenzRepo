@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -63,7 +64,7 @@ void vote() {
             jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / (nate3Weight + landonWeight);
             jordanValue = roundf(jordanValue * 100) / 100;
             jordanPrint = roundf(jordanValue * 2) / 2;
-            cout << "Jordan's rating is now | " << jordanPrint << "\n";
+            cout << "Boxing's rating is now | " << jordanPrint << "\n";
         }
         else if (voteInt == 3) {
             if (jordanRating != 0) {
@@ -82,7 +83,7 @@ void vote() {
             landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / (nate3Weight + jordanWeight);
             landonValue = roundf(landonValue * 100) / 100;
             landonPrint = roundf(landonValue * 2) / 2;
-            cout << "landon's rating is now | " << landonPrint << "\n";
+            cout << "Hockey's rating is now | " << landonPrint << "\n";
         }
         voteInt = 0;
 
@@ -112,7 +113,7 @@ void vote() {
             nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
             nate3Value = roundf(nate3Value * 100) / 100;
             nate3Print = roundf(nate3Value * 2) / 2;
-            cout << "Nate 3's rating is now | " << nate3Print << "\n";
+            cout << "Cycling's rating is now | " << nate3Print << "\n";
         }
         else if (voteInt == 3) {
             if (nate3Rating != 0) {
@@ -131,7 +132,7 @@ void vote() {
             landonValue = ((landonFromNate * nate3Weight) + (landonFromJordan * jordanWeight)) / (nate3Weight + jordanWeight);
             landonValue = roundf(landonValue * 100) / 100;
             landonPrint = roundf(landonValue * 2) / 2;
-            cout << "landon's rating is now | " << landonPrint << "\n";
+            cout << "Hockey's rating is now | " << landonPrint << "\n";
         }
         voteInt = 0;
 
@@ -161,7 +162,7 @@ void vote() {
             nate3Value = ((nateFromJordan * jordanWeight) + (nateFromLandon * landonWeight)) / (jordanWeight + landonWeight);
             nate3Value = roundf(nate3Value * 100) / 100;
             nate3Print = roundf(nate3Value * 2) / 2;
-            cout << "Nate 3's rating is now | " << nate3Print << "\n";
+            cout << "Cycling's rating is now | " << nate3Print << "\n";
         }
         else if (voteInt == 2) {
             if (nate3Rating != 0) {
@@ -180,7 +181,7 @@ void vote() {
             jordanValue = ((jordanFromNate * nate3Weight) + (jordanFromLandon * landonWeight)) / (nate3Weight + landonWeight);
             jordanValue = roundf(jordanValue * 100) / 100;
             jordanPrint = roundf(jordanValue * 2) / 2;
-            cout << "Jordan's rating is now | " << jordanPrint << "\n";
+            cout << "Boxing's rating is now | " << jordanPrint << "\n";
         }
         voteInt = 0;
 
@@ -255,7 +256,7 @@ int main()
     nate3Print = roundf(nate3Value * 2) / 2;
     jordanPrint = roundf(jordanValue * 2) / 2;
     landonPrint = roundf(landonValue * 2) / 2;
-    cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following people on how you feel about them!\nNate 3 | " << nate3Print << "\nJordan | " << jordanPrint << "\nLandon | " << landonPrint << endl;
+    cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following Sports on which one is the best!\nCycling | " << nate3Print << "\nBoxing | " << jordanPrint << "\nHockey | " << landonPrint << endl;
     while (on)
     {
 
@@ -263,10 +264,10 @@ int main()
         jordanWeight = roundf(jordanPrint - .49);
         landonWeight = roundf(landonPrint - .49);
 
-        cout << "Who would you like to vote for (Nate3, Jordan, or Landon)? or you can (Sign-Out or Quit). ";
+        cout << "Who would you like to vote for (Cycling, Boxing, or Hockey)? or you can (Sign-Out or Quit). ";
         cin >> name;
-        if (name == "Nate3" && userName != "Nate") {
-            cout << "What is your rating (out of 5) for Nate3? ";
+        if (name == "Cycling" && userName != "Nate") {
+            cout << "What is your rating (out of 5) for Cycling? ";
             while (!(cin >> nate3Rating) || nate3Rating < 1 || nate3Rating > 5) { 
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
                 cin.clear();
@@ -277,8 +278,8 @@ int main()
             vote();
 
         }
-        else if (name == "Jordan" && userName != "Jordan") {
-            cout << "What is your rating (out of 5) for Jordan? ";
+        else if (name == "Boxing" && userName != "Jordan") {
+            cout << "What is your rating (out of 5) for Boxing? ";
             while (!(cin >> jordanRating) || jordanRating < 1 || jordanRating > 5) {
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
                 cin.clear(); 
@@ -288,8 +289,8 @@ int main()
             voteInt = 2;
             vote();
         }
-        else if (name == "Landon" && userName != "Landon") {
-            cout << "What is your rating (out of 5) for Landon? ";
+        else if (name == "Hockey" && userName != "Landon") {
+            cout << "What is your rating (out of 5) for Hockey? ";
             while (!(cin >> landonRating) || landonRating < 1 || landonRating > 5) {
                 cout << "Invalid rating. Please enter a number between 1 and 5: ";
                 cin.clear(); 
@@ -320,7 +321,7 @@ int main()
         }
         
         else {
-            cout << "Invalid input, you cannot vote for yourself, or if you made a typo please refer you your possible options: \n Nate3, Jordan, Landon, Sign-Out or Quit." << endl;
+            cout << "Invalid input, you cannot vote for yourself, or if you made a typo please refer you your possible options: \n Cycling, Boxing, Hockey, Sign-Out or Quit." << endl;
         }
 
         ofstream outFile("documents/.values.txt");
