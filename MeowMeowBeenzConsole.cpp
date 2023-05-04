@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -230,6 +231,24 @@ int main()
         string usernameFromFile, passwordFromFile;
         bool userFound = false;
         while (inFileLogin >> usernameFromFile >> passwordFromFile) {
+            string fileName = "documents/" + usernameFromFile + "Votes.txt";
+            ofstream outfile(fileName);
+            for (int i = 1; i <= 3; i++) {
+                string fileName = "documents/" + usernameFromFile + "Votes.txt";
+                ofstream outFile(fileName);
+                if (outFile) {
+                    for (int j = 1; j <= 10; j++) {
+                        if (j % 2 == (i - 1) % 2) {
+                            outFile << "1";
+                        }
+                        else {
+                            outFile << " ";
+                        }
+                    }
+                    outFile.close();
+                }
+            }
+            outfile.close();
             if (userName == usernameFromFile) {
                 userFound = true;
                 string enteredPassword;
@@ -343,3 +362,89 @@ int main()
         main();
     }
 }
+
+/*
+use this somehow
+
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+string getUsernameFromFile() {
+    // code to retrieve username from file
+    return "usernameFromFile";
+}
+
+int main() {
+    string username = getUsernameFromFile();
+
+    // open file for reading
+    ifstream inFile("documents/.login.txt");
+
+    // check if file is empty
+    if (inFile.peek() == ifstream::traits_type::eof()) {
+        // if file is empty, fill it with initial value
+        ofstream outFile("documents/.login.txt");
+        outFile << "1";
+        outFile.close();
+    } else {
+        // otherwise, count number of users in file
+        int userCount = 0;
+        char c;
+        while (inFile.get(c)) {
+            if (c == '1') {
+                userCount++;
+            }
+        }
+        inFile.close();
+
+        // check if new user needs to be added
+        bool newUser = true;
+        inFile.open("documents/.login.txt");
+        while (inFile.get(c)) {
+            if (c != ' ' && c != '\n' && c != '\r') {
+                if (c != '1') {
+                    newUser = false;
+                    break;
+                } else {
+                    userCount--;
+                }
+            }
+        }
+        inFile.close();
+
+        if (newUser) {
+            // add new user to file
+            ofstream outFile("documents/.login.txt", ios_base::app);
+            outFile << "1";
+            outFile.close();
+        } else if (userCount > 0) {
+            // update existing user in file
+            inFile.open("documents/.login.txt");
+            ofstream tempFile("documents/.login.temp");
+            bool updatedUser = false;
+            while (inFile.get(c)) {
+                if (c != ' ' && c != '\n' && c != '\r') {
+                    if (!updatedUser && c == '1') {
+                        tempFile << " ";
+                        updatedUser = true;
+                    } else {
+                        tempFile << c;
+                    }
+                }
+            }
+            inFile.close();
+            tempFile.close();
+            remove("documents/.login.txt");
+            rename("documents/.login.temp", "documents/.login.txt");
+        }
+    }
+
+    // print username
+    cout << "Username: " << username << endl;
+
+    return 0;
+}
+*/
