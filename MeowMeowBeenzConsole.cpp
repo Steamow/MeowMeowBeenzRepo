@@ -160,7 +160,7 @@ void vote() {
 
             // Check if Jordan has already voted for Nate, and if so, use that rating; otherwise, keep the existing rating
             if (nate3Rating != 0) {
-                jordanFromNate = nateRating;
+                jordanFromNate = nate3Rating;
             }
             else {
                 jordanFromNate = jordanFromNate;
@@ -189,7 +189,7 @@ void vote() {
         if (voteInt == 1) {
             // Check if Landon has already voted for Nate, and if so, use that rating; otherwise, keep the existing rating
             if (nate3Rating != 0) {
-                landonFromNate = nateRating;
+                landonFromNate = nate3Rating;
             }
             else {
                 landonFromNate = landonFromNate;
@@ -244,12 +244,78 @@ void vote() {
         }
     }
 
+}
+
+
+int main()
+{
+    // Check if it's the first run and call the vote() function
+    if (first) {
+        vote();
+        first = false;
     }
-    nate3Print = roundf(nate3Value * 2) / 2;
-    jordanPrint = roundf(jordanValue * 2) / 2;
-    landonPrint = roundf(landonValue * 2) / 2;
-    cout << "Welcome to MeowMeowBeenz " << userName << "!\nRate the following Sports on which one is the best!\nCycling | " << nate3Print << "\nBoxing | " << jordanPrint << "\nHockey | " << landonPrint << endl;
-    // Print the rounded ratings for each sport
+
+    // Reset rating variables
+    nate3Rating = 0;
+    jordanRating = 0;
+    landonRating = 0;
+
+    // Read ratings from the file
+    ifstream inFile("documents/.values.txt");
+    if (inFile) {
+        inFile >> nate3Value >> jordanValue >> landonValue;
+        inFile.close();
+    }
+
+    // Display a message indicating the program is opening MeowMeowBeenz
+    cout << "Now opening MeowMeowBeenz" << endl;
+
+    // User login loop
+    while (signedIn == false)
+    {
+        // Prompt user to enter their username
+        cout << "Enter your user name: ";
+        cin >> userName;
+
+        // Open the login file and check if the entered username and password match
+        ifstream inFileLogin("documents/.login.txt");
+        string usernameFromFile, passwordFromFile;
+        bool userFound = false;
+
+        // Iterate through each line of the login file
+        while (inFileLogin >> usernameFromFile >> passwordFromFile) {
+            if (userName == usernameFromFile) {
+                userFound = true;
+                string enteredPassword;
+
+                // Prompt user to enter their password
+                cout << "Enter your password: ";
+                cin >> enteredPassword;
+
+                // Check if the entered password matches the one in the file
+                if (enteredPassword == passwordFromFile) {
+                    signedIn = true;
+                    on = true;
+                    cout << "Login successful." << endl;
+                    break;
+                }
+                else {
+                    cout << "Incorrect password. Please try again." << endl;
+                }
+            }
+        }
+        inFileLogin.close();
+
+        // If the user is not found, prompt them to sign up
+        if (!userFound) {
+            cout << "User not found. Please sign up." << endl;
+            // Add code to create a new user account
+            // This could involve prompting the user to enter a new username and password
+            // Then, the entered credentials can be appended to the login file for future logins
+        }
+    }
+
+
     nate3Print = roundf(nate3Value * 2) / 2; // Round Nate's rating to the nearest 0.5
     jordanPrint = roundf(jordanValue * 2) / 2; // Round Jordan's rating to the nearest 0.5
     landonPrint = roundf(landonValue * 2) / 2; // Round Landon's rating to the nearest 0.5
@@ -336,12 +402,12 @@ void vote() {
         }
     }
 
-    // Check if the user is signed in and the loop is finished
-    if (signedIn == true && on == false) {
-        return 0; // Exit the program if the user is still signed in
-    }
-    else {
-        main(); // Restart the main function if the user is signed out
-    }
+        // Check if the user is signed in and the loop is finished
+        if (signedIn == true && on == false) {
+            return 0; // Exit the program if the user is still signed in
+        }
+        else {
+            main(); // Restart the main function if the user is signed out
+        }
 
 }
